@@ -1,115 +1,104 @@
-/* General body style */
+/* General Styles */
 body {
-    font-family: 'Segoe UI', 'Arial', sans-serif;
-    background-color: #0d1117; /* Dark background */
-    color: #c9d1d9; /* Light text color */
+    font-family: Arial, sans-serif;
+    background-color: #0d1117;
+    color: #c9d1d9;
     margin: 0;
     padding: 0;
+}
+
+/* Container */
+.container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #161b22;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     text-align: center;
 }
 
-/* Container background */
-.container {
-    background-color: #161b22;
-    border-radius: 10px;
-    padding: 20px;
-    width: 80%;
-    max-width: 500px;
-    margin: 20px auto;
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-/* Heading style */
-h1 {
-    color: #00c4ff;
-    font-weight: bold;
-}
-
-/* Label style */
 label {
-    display: block;
-    margin-top: 10px;
-    color: #c9d1d9;
+    font-weight: bold;
+    text-align: left;
 }
 
-/* Input fields */
-input[type="number"], input[type="text"] {
+input {
+    padding: 10px;
+    border: 1px solid #30363d;
+    border-radius: 5px;
     background-color: #0d1117;
     color: #ffffff;
-    border: 1px solid #30363d;
-    padding: 8px;
-    border-radius: 5px;
-    width: 100%;
 }
 
-/* Button style */
 button {
     background-color: #238636;
-    color: #ffffff;
+    color: white;
+    padding: 10px;
     border: none;
-    padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 10px;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
     background-color: #2ea043;
 }
 
-/* Modal styles */
-#resultModal {
-    display: none;
+/* Popup Styles */
+.popup {
     position: fixed;
-    z-index: 1000;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
     background-color: rgba(0, 0, 0, 0.8);
-    padding-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#modalContent {
+.popup.hidden {
+    display: none;
+}
+
+.popup-content {
     background-color: #161b22;
-    margin: auto;
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
     border-radius: 10px;
-    color: #c9d1d9;
     text-align: center;
+    max-width: 400px;
+    width: 90%;
 }
 
-/* Close button */
-#closeModal {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+.popup-content h2 {
+    margin-bottom: 15px;
 }
 
-#closeModal:hover,
-#closeModal:focus {
-    color: white;
-    text-decoration: none;
-    cursor: pointer;
+.popup-content button {
+    background-color: #d73a49;
+    margin-top: 20px;
 }
 
-/* Progress bar inside modal */
 .progress-bar {
     width: 100%;
     background-color: #30363d;
-    border-radius: 8px;
+    border-radius: 5px;
     overflow: hidden;
-    margin: 10px 0;
+    margin-top: 10px;
+    height: 20px;
 }
 
 .progress {
-    height: 20px;
+    height: 100%;
     width: 0;
     background-color: #00c4ff;
-    transition: width 0.5s;
+    transition: width 0.5s ease;
 }

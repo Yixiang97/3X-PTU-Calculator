@@ -1,95 +1,67 @@
-// Age categories with grade thresholds
+// Scoring data
+const situpScoring = [
+    { reps: 80, score: 100 }, { reps: 79, score: 98 }, { reps: 78, score: 96 },
+    { reps: 50, score: 50 }, { reps: 0, score: 0 }
+];
+const chinupScoring = { 20: 100, 10: 50, 0: 0 };
+const runScoring = [
+    { maxTime: 840, score: 100 }, { maxTime: 1000, score: 50 }, { maxTime: Infinity, score: 0 }
+];
 const ageCategories = {
-    "Category X": { minAge: 0, maxAge: 24, gradeA: 250 },
-    "Category Y": { minAge: 25, maxAge: 29, gradeA: 240 },
-    "Category Y1": { minAge: 30, maxAge: 34, gradeA: 230 },
-    "Category Z": { minAge: 35, maxAge: 39, gradeA: 220 },
-    "Category Z1": { minAge: 40, maxAge: 44, gradeA: 210 },
-    "Category V": { minAge: 45, maxAge: 49, gradeA: 200 },
-    "Category V1": { minAge: 50, maxAge: 100, gradeA: 170 }
+    "Under 25": { minAge: 0, maxAge: 24, gradeA: 250 },
+    "25-29": { minAge: 25, maxAge: 29, gradeA: 240 },
+    "30-34": { minAge: 30, maxAge: 34, gradeA: 230 }
 };
 
-// Function to calculate scores
+// Calculate Scores
 function calculateScores() {
-    const chinups = parseInt(document.getElementById("chinups").value);
-    const situps = parseInt(document.getElementById("situps").value);
-    const runtime = document.getElementById("runtime").value;
-    const age = parseInt(document.getElementById("age").value);
+    const chinups = parseInt(document.getElementById("chinups").value) || 0;
+    const situps = parseInt(document.getElementById("situps").value) || 0;
+    const runtime = document.getElementById("runtime").value || "99:99";
+    const age = parseInt(document.getElementById("age").value) || 0;
 
-    // Validate inputs
-    if (isNaN(chinups) || isNaN(situps) || !runtime.match(/^\d{1,2}:\d{2}$/) || isNaN(age)) {
-        alert("Please enter valid inputs in the correct format.");
-        return;
-    }
-
-    // Convert runtime to total seconds
     const [runMinutes, runSeconds] = runtime.split(":").map(Number);
-    const totalRunTime = runMinutes * 60 + runSeconds;
+    const totalRunTime = runMinutes * 60 + (runSeconds || 0);
 
-    // Chin-up score
-    const chinupScoring = {
-        20: 100, 19: 95, 18: 90, 17: 85, 16: 80,
-        15: 75, 14: 70, 13: 65, 12: 60, 11: 55,
-        10: 50, 9: 45, 8: 40, 7: 35, 6: 30,
-        5: 25, 4: 20, 3: 15, 2: 10, 1: 5, 0: 0
-    };
-    const chinupScore = chinups >= 20 ? 100 : (chinupScoring[chinups] || 0);
-
-    // Sit-up score
-    const situpScore = situps >= 80 ? 100 : situps;
-
-    // Run scoring
-    const runScoring = [
-        { maxTime: 840, score: 100 }, { maxTime: 900, score: 90 }, { maxTime: 960, score: 80 },
-        { maxTime: 1020, score: 70 }, { maxTime: 1080, score: 60 }, { maxTime: 1140, score: 50 },
-        { maxTime: 1200, score: 40 }, { maxTime: 1260, score: 30 }, { maxTime: 1320, score: 20 },
-        { maxTime: 1380, score: 10 }, { maxTime: 1434, score: 1 }
-    ];
-    let runScore = 1; // Default to lowest score
-    for (const entry of runScoring) {
-        if (totalRunTime <= entry.maxTime) {
-            runScore = entry.score;
-            break;
-        }
-    }
+    const chinupScore = chinupScoring[chinups] || 0;
+    const situpScore = situpScoring.find(s => situps >= s.reps)?.score || 0;
+    const runScore = runScoring.find(r => totalRunTime <= r.maxTime)?.score || 0;
 
     const totalScore = chinupScore + situpScore + runScore;
 
-    // Determine Grade A threshold based on age
-    let gradeAThreshold = 250; // Default threshold
-    for (const category in ageCategories) {
-        const { minAge, maxAge, gradeA } = ageCategories[category];
-        if (age >= minAge && age <= maxAge) {
-            gradeAThreshold = gradeA;
+    let gradeAThreshold = 250;
+    for (const category of Object.values(ageCategories)) {
+        if (age >= category.minAge && age <= category.maxAge) {
+            gradeAThreshold = category.gradeA;
             break;
         }
     }
 
-    // Calculate points to Grade A
     const pointsToGradeA = Math.max(gradeAThreshold - totalScore, 0);
-    const gradeMessage = pointsToGradeA === 0
-        ? `<p style="color: #00ff00;">CONGRATULATIONS! You achieved Grade A!</p>`
-        : `${pointsToGradeA} points more to Grade A`;
+    const progressPercentage = Math.min((totalScore / gradeAThreshold) * 100, 100);
 
-    // Update progress bar
-    const progress = Math.min((totalScore / gradeAThreshold) * 100, 100);
+    displayPopup(chinupScore, situpScore, runScore, totalScore, pointsToGradeA, progressPercentage);
+}
 
-    // Display result in modal
-    document.getElementById("modalContent").innerHTML = `
-        <h2>Results</h2>
+// Display Popup
+function displayPopup(chinupScore, situpScore, runScore, totalScore, pointsToGradeA, progressPercentage) {
+    const resultContent = document.getElementById("resultContent");
+    const progressBar = document.getElementById("progress");
+
+    resultContent.innerHTML = `
         <p><strong>Chin-up Score:</strong> ${chinupScore}</p>
         <p><strong>Sit-up Score:</strong> ${situpScore}</p>
         <p><strong>Run Score:</strong> ${runScore}</p>
         <p><strong>Total Score:</strong> ${totalScore}</p>
-        <p><strong>${gradeMessage}</strong></p>
-        <div class="progress-bar">
-            <div class="progress" style="width: ${progress}%;"></div>
-        </div>
+        <p>${pointsToGradeA === 0 ? "CONGRATULATIONS! You achieved Grade A!" : `${pointsToGradeA} points more to Grade A`}</p>
     `;
-    document.getElementById("resultModal").style.display = "block";
+
+    progressBar.style.width = `${progressPercentage}%`;
+
+    document.getElementById("resultPopup").classList.remove("hidden");
 }
 
-// Function to close modal
-function closeModal() {
-    document.getElementById("resultModal").style.display = "none";
+// Close Popup
+function closePopup() {
+    document.getElementById("resultPopup").classList.add("hidden");
 }

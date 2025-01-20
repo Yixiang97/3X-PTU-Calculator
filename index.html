@@ -14,34 +14,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PTU 3x Fitness Test Calculator</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>PTU 3x Fitness Test Calculator</h1>
     <div class="container">
-        <form id="ptuForm">
+        <h1>PTU 3x Fitness Test Calculator</h1>
+        <form id="fitnessForm">
             <label for="chinups">Chin-ups (Reps):</label>
-            <input type="number" id="chinups" min="0" placeholder="e.g., 20" required>
-
+            <input type="number" id="chinups" placeholder="e.g., 20" min="0">
             <label for="situps">Sit-ups (Reps):</label>
-            <input type="number" id="situps" min="0" placeholder="e.g., 80" required>
-
+            <input type="number" id="situps" placeholder="e.g., 50" min="0">
             <label for="runtime">3.2km Run Time (MM:SS):</label>
-            <input type="text" id="runtime" placeholder="e.g., 18:30" required>
-
+            <input type="text" id="runtime" placeholder="e.g., 18:30">
             <label for="age">Age:</label>
-            <input type="number" id="age" min="0" placeholder="e.g., 25" required>
-
+            <input type="number" id="age" placeholder="e.g., 25" min="0">
             <button type="button" onclick="calculateScores()">Calculate</button>
         </form>
     </div>
-
-    <!-- Modal for displaying results -->
-    <div id="resultModal">
-        <span id="closeModal" onclick="closeModal()">&times;</span>
-        <div id="modalContent"></div>
+    <div id="resultPopup" class="popup hidden">
+        <div class="popup-content">
+            <h2>Results</h2>
+            <p id="resultContent"></p>
+            <div id="progressBar" class="progress-bar">
+                <div id="progress" class="progress"></div>
+            </div>
+            <button onclick="closePopup()">Close</button>
+        </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
