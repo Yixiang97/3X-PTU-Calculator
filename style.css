@@ -4,48 +4,50 @@ body {
     background-color: #0d1117;
     color: #c9d1d9;
     margin: 0;
-    padding: 0;
-}
-
-/* Container */
-.container {
-    max-width: 500px;
-    margin: 50px auto;
     padding: 20px;
-    background-color: #161b22;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     text-align: center;
 }
 
-/* Form Styles */
+h1 {
+    color: #00c4ff;
+    margin-bottom: 20px;
+}
+
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    background-color: #161b22;
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 label {
+    display: block;
+    margin-bottom: 8px;
     font-weight: bold;
-    text-align: left;
 }
 
 input {
-    padding: 10px;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
     border: 1px solid #30363d;
     border-radius: 5px;
     background-color: #0d1117;
-    color: #ffffff;
+    color: #c9d1d9;
 }
 
 button {
-    background-color: #238636;
-    color: white;
+    width: 100%;
     padding: 10px;
+    background-color: #238636;
     border: none;
     border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 button:hover {
@@ -54,51 +56,44 @@ button:hover {
 
 /* Popup Styles */
 .popup {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.popup.hidden {
-    display: none;
+    z-index: 1000;
 }
 
 .popup-content {
     background-color: #161b22;
     padding: 20px;
     border-radius: 10px;
-    text-align: center;
-    max-width: 400px;
     width: 90%;
+    max-width: 500px;
+    color: #c9d1d9;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    position: relative;
 }
 
 .popup-content h2 {
+    color: #00c4ff;
     margin-bottom: 15px;
 }
 
-.popup-content button {
-    background-color: #d73a49;
-    margin-top: 20px;
+.popup-content .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #c9d1d9;
 }
 
-.progress-bar {
-    width: 100%;
-    background-color: #30363d;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-top: 10px;
-    height: 20px;
-}
-
-.progress {
-    height: 100%;
-    width: 0;
-    background-color: #00c4ff;
-    transition: width 0.5s ease;
+.popup-content .close:hover {
+    color: #ff5555;
 }
